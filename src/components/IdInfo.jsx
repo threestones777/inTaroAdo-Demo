@@ -1,8 +1,5 @@
-// import i18n from "@/i18n/i18n.js";
-// const i18nKeys = i18n[localStorage.lang || "cn"];
-import { Link } from "react-router";
 import { Card } from "antd";
-import useStore from "@/store";
+import useStore from "@/stores/store";
 import { useParams } from "react-router";
 
 export default function IdInfo() {

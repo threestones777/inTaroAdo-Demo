@@ -1,5 +1,5 @@
 import { Button, Card, Input } from "antd";
-import useStore from "@/store";
+import useStore from "@/stores/store";
 import React, { useState, useEffect } from "react";
 import { ReactReader } from "react-reader";
 import dayjs from "dayjs";

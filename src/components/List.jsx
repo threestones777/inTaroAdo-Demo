@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import { Link } from "react-router";
-import useStore from "@/store";
+import useStore from "@/stores/store";
 import { useSearchParams, useNavigate } from "react-router";
 // import data from "./data.json";
 import { useEffect } from "react";

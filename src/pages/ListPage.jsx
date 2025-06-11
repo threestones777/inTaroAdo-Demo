@@ -1,5 +1,4 @@
-// ListPage.jsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   DatePicker,
@@ -21,10 +20,11 @@ import {
   ReloadOutlined,
   DeleteOutlined,
   EyeOutlined,
-  MoreOutlined,
+  IssuesCloseOutlined,
+  CheckCircleOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
-import useListStore from "@/useListStore";
+import useListStore from "@/stores/useListStore";
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -226,7 +226,10 @@ const ListPage = () => {
 
   return (
     <div className="p-4">
-      <Card title="" className="my-10">
+      <Card
+        title=""
+        className="w-[95%] mx-auto shadow-lg mt-10 mb-30 border-1 border-[#ccc]"
+      >
         <Row gutter={16}>
           <Col xs={24} sm={12} md={8} lg={6} xl={6}>
             <div className="mb-4">
@@ -290,8 +293,6 @@ const ListPage = () => {
           </Col>
         </Row>
 
-        <Divider />
-
         <div className="flex justify-end">
           <Space>
             <Button onClick={handleReset} icon={<ReloadOutlined />}>
@@ -310,26 +311,29 @@ const ListPage = () => {
       {/* selectedRowKeys */}
       <Card
         title="数据列表"
-        className="mb-4"
+        className="w-[95%] mx-auto shadow-lg mb-50 border-1 border-[#ccc]"
         extra={
           <Space>
-            <Button
-              type="primary"
-              onClick={() => {
-                handleBatchDelete();
-              }}
-              disabled={!selectedRowKeys.length}
-              icon={<SearchOutlined />}
+            <Popconfirm
+              title="确定要删除吗？"
+              onConfirm={() => handleBatchDelete()}
             >
-              批量删除
-            </Button>
+              <Button
+                type="primary"
+                disabled={!selectedRowKeys.length}
+                icon={<DeleteOutlined />}
+              >
+                批量删除
+              </Button>
+            </Popconfirm>
+
             <Button
               type="primary"
               onClick={() => {
                 handleBatchUpdateStatus("frozen");
               }}
               disabled={!selectedRowKeys.length}
-              icon={<SearchOutlined />}
+              icon={<IssuesCloseOutlined />}
             >
               批量冻结
             </Button>
@@ -339,7 +343,7 @@ const ListPage = () => {
                 handleBatchUpdateStatus("active");
               }}
               disabled={!selectedRowKeys.length}
-              icon={<SearchOutlined />}
+              icon={<CheckCircleOutlined />}
             >
               批量解冻
             </Button>
@@ -360,7 +364,7 @@ const ListPage = () => {
           }}
           onChange={handleTableChange}
           rowSelection={rowSelection}
-          scroll={{ x: 1500 }}
+          scroll={{ x: 1320 }}
           bordered
         />
       </Card>
