@@ -1,7 +1,6 @@
 import { Button, Card, Input } from "antd";
 import useStore from "@/stores/store";
-import React, { useState, useEffect } from "react";
-import { ReactReader } from "react-reader";
+import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 export default function Home() {
   const [timeString, setTimeString] = useState(
@@ -23,8 +22,16 @@ export default function Home() {
       <div className="flex justify-around">
         <Card
           title="dayjs"
-          variant="borderless"
-          className="w-430 rounded-30 border-1 border-[#ccc] shadow-lg mt-50"
+          hoverable
+          className="w-430 rounded-30 border-1 border-[#73bea0] shadow-lg mt-50 hover:border-[#4f9c83] text-24"
+          styles={{
+            header: {
+              background: "#437371",
+              color: "#c4f8e7",
+              fontSize: "36px",
+              borderRadius: "30px 30px 0 0",
+            },
+          }}
         >
           <p>
             日期：
@@ -36,29 +43,49 @@ export default function Home() {
         <Card
           title="Zustand"
           variant="borderless"
-          className="w-430 rounded-30 border-1 border-[#ccc] shadow-lg mt-50"
+          className="w-430 rounded-30 border-1 border-[#73bea0] shadow-lg mt-50 hover:border-[#4f9c83] text-24"
+          styles={{
+            header: {
+              background: "#437371",
+              color: "#c4f8e7",
+              fontSize: "36px",
+              borderRadius: "30px 30px 0 0",
+            },
+          }}
         >
           <div className="flex justify-around">
             <div>
               <p>
-                <Button type="primary" className="w-100" onClick={increment}>
+                <Button
+                  type="primary"
+                  className="w-100 my-button"
+                  onClick={increment}
+                >
                   +
                 </Button>
               </p>
               <p>
-                <Button type="primary" className="w-100" onClick={decrement}>
+                <Button
+                  type="primary"
+                  className="w-100 my-button"
+                  onClick={decrement}
+                >
                   -
                 </Button>
               </p>
               <p>
-                <Button type="primary" className="w-100" onClick={reset}>
+                <Button
+                  type="primary"
+                  className="w-100 my-button"
+                  onClick={reset}
+                >
                   reset
                 </Button>
 
                 <Input
                   className="mt-10"
                   placeholder="Basic usage"
-                  defaultValue={count}
+                  value={count}
                 />
               </p>
             </div>

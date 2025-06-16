@@ -2,5 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 :root {
-  font-family: HarmonyOS Sans, HarmonyOS Sans;
+  /* font-family: ttt; */
+}
+.my-button {
+  background: #4f9c83;
+}
+.my-button:hover {
+  background: #73bea0 !important;
+}
+
+@font-face {
+  font-family: "ttt";
+  src: url("./assets/fonts/Thorm Block.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ttt";
+  src: url("./assets/fonts/Thorm Block.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* 修改所有 Ant Table 的字体 */
+.ant-table {
+  /* font-family: ttt, sans-serif; */
+}
+
+/* 修改表头字体 */
+.ant-table-thead > tr > th {
+  /* font-family: ttt, sans-serif; */
+  font-weight: 600; /* 如果需要调整表头字重 */
 }

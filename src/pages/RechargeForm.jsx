@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Form, Input, Select, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useFormStore, useFormActions } from "@/stores/useRechargeStore";
+import axios from "axios";
 
 const { Option } = Select;
 
@@ -23,6 +24,17 @@ const RechargeForm = () => {
   // 同步表单数据
   useEffect(() => {
     form.setFieldsValue(formData);
+    axios
+      .get("/api/users", {
+        headers: {
+          Authorization: "Bearer your-token-here",
+          "Content-Type": "application/json",
+          "Custom-Header": "custom-value",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      });
   }, [formData, form]);
 
   // 提交处理
@@ -44,7 +56,7 @@ const RechargeForm = () => {
   };
 
   return (
-    <div className="w-430 mx-auto p-40 bg-white rounded-25 shadow-md mt-30 border-1 border-[#ccc]">
+    <div className="w-430 mx-auto p-40 bg-white rounded-25 shadow-md mt-30 border-1 border-[#ccc] wow animate__animated animate__fadeInUp">
       <h2 className="text-xl font-semibold mb-4">账户充值</h2>
 
       <Form form={form} layout="vertical" initialValues={formData}>

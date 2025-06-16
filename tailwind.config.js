@@ -38,6 +38,10 @@ export default {
         map[index] = `${index}px`;
         return map;
       }, {}),
+      // 添加你的字体
+      fontFamily: {
+        ttt: ["ttt"],
+      },
       // 字体大小
       fontSize: Array.from({ length: 100 }).reduce((map, _, index) => {
         map[index] = `${index}px`;

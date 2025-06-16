@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import zhCN from "antd/es/locale/zh_CN";
 import {
   Table,
+  ConfigProvider,
   DatePicker,
   Input,
   Select,
@@ -14,6 +16,8 @@ import {
   Card,
   Row,
   Col,
+  Modal,
+  Pagination,
 } from "antd";
 import {
   SearchOutlined,
@@ -53,6 +57,21 @@ const ListPage = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+  const [isPs, setIsPs] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalId, setModalId] = useState(null);
+  const [modalValue, setModalValue] = useState(null);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    fetchData({ pagination, searchParams });
+    updateStatus(modalId, modalValue);
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   // 初始化加载数据
   useEffect(() => {
@@ -61,6 +80,12 @@ const ListPage = () => {
 
   // 处理表格变化
   const handleTableChange = (pagination) => {
+    console.log(999, pagination);
+    setPagination(pagination);
+    fetchData({ pagination, searchParams });
+  };
+  const handleTableChange777 = (pagination) => {
+    console.log(999, pagination);
     setPagination(pagination);
     fetchData({ pagination, searchParams });
   };
@@ -164,7 +189,23 @@ const ListPage = () => {
       title: "状态",
       dataIndex: "status",
       width: 100,
-      render: (status) => renderStatusTag(status),
+      render: (_, record) => (
+        <Select
+          value={record.status}
+          style={{ width: 100 }}
+          onChange={(value) => {
+            showModal();
+            setModalId(record.id);
+            setModalValue(value);
+          }}
+        >
+          {statusOptions.map((option) => (
+            <Option key={option.value} value={option.value}>
+              {option.label}
+            </Option>
+          ))}
+        </Select>
+      ),
     },
     {
       title: "金额",
@@ -193,8 +234,8 @@ const ListPage = () => {
             详情
           </Button>
 
-          <Select
-            defaultValue={record.status}
+          {/* <Select
+            value={record.status}
             style={{ width: 100 }}
             onChange={(value) => updateStatus(record.id, value)}
           >
@@ -203,7 +244,7 @@ const ListPage = () => {
                 {option.label}
               </Option>
             ))}
-          </Select>
+          </Select> */}
 
           <Popconfirm
             title="确定要删除吗？"
@@ -226,6 +267,25 @@ const ListPage = () => {
 
   return (
     <div className="p-4">
+      <Modal
+        title="确定要更改状态吗？"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            取消
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={loading}
+            onClick={handleOk}
+          >
+            确定
+          </Button>,
+        ]}
+      ></Modal>
       <Card
         title=""
         className="w-[95%] mx-auto shadow-lg mt-10 mb-30 border-1 border-[#ccc]"
@@ -350,23 +410,54 @@ const ListPage = () => {
           </Space>
         }
       >
-        <Table
-          columns={columns}
-          rowKey="id"
-          dataSource={data}
-          loading={loading}
-          pagination={{
-            ...pagination,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total) => `共 ${total} 条`,
-            pageSizeOptions: ["10", "20", "50", "100"],
-          }}
-          onChange={handleTableChange}
-          rowSelection={rowSelection}
-          scroll={{ x: 1320 }}
-          bordered
-        />
+        <ConfigProvider locale={zhCN}>
+          <Table
+            columns={columns}
+            rowKey="id"
+            dataSource={data}
+            loading={loading}
+            pagination={{
+              // current: pagination.current,
+              // pageSize: pagination.pageSize,
+              // total: 100,
+              ...pagination,
+              showSizeChanger: true,
+              onShowSizeChange: (current, pageSize) => {
+                current = 1;
+                pagination.current = current;
+                pagination.pageSize = pageSize;
+                // handleTableChange(pagination);
+                setPagination(pagination);
+                console.log(8888, current);
+              },
+              onChange: (current, pageSize) => {
+                pagination.current = current;
+                pagination.pageSize = pageSize;
+                setPagination(pagination);
+                console.log(6666, current);
+                fetchData({ pagination, searchParams });
+                // handleTableChange(pagination);
+              },
+              showQuickJumper: true,
+              showTotal: (total) => `共 ${total} 条`,
+              pageSizeOptions: ["10", "20", "50", "100"],
+            }}
+            // onChange={handleTableChange}
+            // onShowSizeChange={handleTableChange777}
+            rowSelection={rowSelection}
+            scroll={{ x: 1320 }}
+            bordered
+          />
+          {/* <Pagination
+            size="small"
+            current={current}
+            total={50}
+            showTotal={(total) => `共 ${total} 条`}
+            showSizeChanger
+            onShowSizeChange={() => {}}
+            showQuickJumper
+          /> */}
+        </ConfigProvider>
       </Card>
 
       <Drawer

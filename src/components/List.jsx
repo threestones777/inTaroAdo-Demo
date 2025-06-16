@@ -90,6 +90,7 @@ export default function List() {
         onSearch={onSearch}
       />
       <Table
+        className="font-ttt"
         columns={columns}
         dataSource={showData}
         rowKey={(record) => record.id}

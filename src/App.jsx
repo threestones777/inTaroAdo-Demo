@@ -24,36 +24,32 @@ export default function App() {
   }, [fetchData]); // fetchData是稳定的引用，不会导致无限循环
   return (
     <div>
-      <nav className="fixed z-50 w-full h-90 bg-white shadow-lg text-center flex justify-center">
+      <nav className="fixed z-50 w-full h-90 bg-[linear-gradient(to_bottom,#1c3c31_0%,#437371_100%)] text-[#c4f8e7] shadow-lg text-center flex justify-start">
         <Link
-          className="w-200 text-36 leading-48 block py-24 hover:cursor-pointer"
+          className="mt-20 ml-80 mr-120 flex"
           to="/"
           onClick={() => {
             addSearch("");
           }}
         >
-          首页
+          <img src="/logo.jpg" className="w-50 h-50 rounded-10" alt="" />
         </Link>
-        <Link
-          className="w-200 text-36 leading-48 block py-24 hover:cursor-pointer"
-          to={`${!search ? "/list" : "/list?type=" + search}`}
-        >
-          列表1
-        </Link>
-        <Link
-          className="w-200 text-36 leading-48 block py-24 hover:cursor-pointer"
-          to={`/listmore`}
-        >
-          列表2
-        </Link>
-        <Link
-          className="w-200 text-36 leading-48 block py-24 hover:cursor-pointer"
-          to={`/form`}
-        >
-          充值
-        </Link>
+        <div className="text-30 leading-48 flex">
+          <Link
+            className="pr-50 py-24 hover:cursor-pointer"
+            to={`${!search ? "/list" : "/list?type=" + search}`}
+          >
+            列表1
+          </Link>
+          <Link className="pr-50 py-24 hover:cursor-pointer" to={`/listmore`}>
+            列表2
+          </Link>
+          <Link className="pr-50 py-24 hover:cursor-pointer" to={`/form`}>
+            充值
+          </Link>
+        </div>
       </nav>
-      <div className="pt-100 z-20">
+      <div className="pt-100 min-h-screen z-20 bg-[linear-gradient(to_bottom,#98c0c9_0%,#c4f8e7_100%)]">
         <Outlet />
       </div>
     </div>
