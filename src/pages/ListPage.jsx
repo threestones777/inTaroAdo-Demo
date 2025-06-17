@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import zhCN from "antd/es/locale/zh_CN";
+
 import {
   Table,
   ConfigProvider,
@@ -30,6 +31,9 @@ import {
 import dayjs from "dayjs";
 import useListStore from "@/stores/useListStore";
 
+import "dayjs/locale/zh-cn";
+dayjs.locale("zh-cn");
+
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
@@ -57,7 +61,6 @@ const ListPage = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
-  const [isPs, setIsPs] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalId, setModalId] = useState(null);
   const [modalValue, setModalValue] = useState(null);
@@ -65,7 +68,7 @@ const ListPage = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
-    fetchData({ pagination, searchParams });
+    // fetchData({ pagination, searchParams });
     updateStatus(modalId, modalValue);
     setIsModalOpen(false);
   };
@@ -77,18 +80,6 @@ const ListPage = () => {
   useEffect(() => {
     fetchData({ pagination, searchParams });
   }, []);
-
-  // 处理表格变化
-  const handleTableChange = (pagination) => {
-    console.log(999, pagination);
-    setPagination(pagination);
-    fetchData({ pagination, searchParams });
-  };
-  const handleTableChange777 = (pagination) => {
-    console.log(999, pagination);
-    setPagination(pagination);
-    fetchData({ pagination, searchParams });
-  };
 
   // 搜索
   const handleSearch = () => {
@@ -143,7 +134,7 @@ const ListPage = () => {
     }
     batchUpdateStatus(selectedRowKeys, status);
     setSelectedRowKeys([]);
-    message.success("批量更新状态成功");
+    message.success("更新状态成功");
   };
 
   // 渲染状态标签
@@ -181,7 +172,7 @@ const ListPage = () => {
       fixed: "left",
     },
     {
-      title: "名称",
+      title: "卡号",
       dataIndex: "name",
       width: 150,
     },
@@ -234,18 +225,6 @@ const ListPage = () => {
             详情
           </Button>
 
-          {/* <Select
-            value={record.status}
-            style={{ width: 100 }}
-            onChange={(value) => updateStatus(record.id, value)}
-          >
-            {statusOptions.map((option) => (
-              <Option key={option.value} value={option.value}>
-                {option.label}
-              </Option>
-            ))}
-          </Select> */}
-
           <Popconfirm
             title="确定要删除吗？"
             onConfirm={() => handleDelete(record.id)}
@@ -294,26 +273,27 @@ const ListPage = () => {
           <Col xs={24} sm={12} md={8} lg={6} xl={6}>
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">日期范围</label>
-              <RangePicker
-                style={{ width: "100%" }}
-                value={
-                  searchParams.dateRange.length === 2
-                    ? [
-                        dayjs(searchParams.dateRange[0]),
-                        dayjs(searchParams.dateRange[1]),
-                      ]
-                    : null
-                }
-                onChange={(dates) =>
-                  setSearchParams({
-                    ...searchParams,
-                    dateRange: dates
-                      ? [dates[0].toDate(), dates[1].toDate()]
-                      : [],
-                  })
-                }
-                showTime
-              />
+              <ConfigProvider locale={zhCN}>
+                <RangePicker
+                  style={{ width: "100%" }}
+                  value={
+                    searchParams.dateRange.length === 2
+                      ? [
+                          dayjs(searchParams.dateRange[0]),
+                          dayjs(searchParams.dateRange[1]),
+                        ]
+                      : null
+                  }
+                  onChange={(dates) =>
+                    setSearchParams({
+                      ...searchParams,
+                      dateRange: dates
+                        ? [dates[0].toDate(), dates[1].toDate()]
+                        : [],
+                    })
+                  }
+                />
+              </ConfigProvider>
             </div>
           </Col>
 
@@ -321,7 +301,7 @@ const ListPage = () => {
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">关键词</label>
               <Input
-                placeholder="请输入关键词"
+                placeholder="请输入卡号"
                 value={searchParams.keyword}
                 onChange={(e) => {
                   setSearchParams({ ...searchParams, keyword: e.target.value });
@@ -355,15 +335,15 @@ const ListPage = () => {
 
         <div className="flex justify-end">
           <Space>
-            <Button onClick={handleReset} icon={<ReloadOutlined />}>
-              重置
-            </Button>
             <Button
               type="primary"
               onClick={handleSearch}
               icon={<SearchOutlined />}
             >
               搜索
+            </Button>
+            <Button onClick={handleReset} icon={<ReloadOutlined />}>
+              重置
             </Button>
           </Space>
         </div>
@@ -417,46 +397,29 @@ const ListPage = () => {
             dataSource={data}
             loading={loading}
             pagination={{
-              // current: pagination.current,
-              // pageSize: pagination.pageSize,
-              // total: 100,
               ...pagination,
               showSizeChanger: true,
-              onShowSizeChange: (current, pageSize) => {
-                current = 1;
-                pagination.current = current;
-                pagination.pageSize = pageSize;
-                // handleTableChange(pagination);
-                setPagination(pagination);
-                console.log(8888, current);
-              },
               onChange: (current, pageSize) => {
+                console.log(6666, current);
+                console.log(7777, pageSize);
+                console.log(888, pagination.pageSize);
+                if (pageSize !== pagination.pageSize) {
+                  current = 1;
+                  pagination.current = 1;
+                }
                 pagination.current = current;
                 pagination.pageSize = pageSize;
                 setPagination(pagination);
-                console.log(6666, current);
                 fetchData({ pagination, searchParams });
-                // handleTableChange(pagination);
               },
               showQuickJumper: true,
               showTotal: (total) => `共 ${total} 条`,
               pageSizeOptions: ["10", "20", "50", "100"],
             }}
-            // onChange={handleTableChange}
-            // onShowSizeChange={handleTableChange777}
             rowSelection={rowSelection}
             scroll={{ x: 1320 }}
             bordered
           />
-          {/* <Pagination
-            size="small"
-            current={current}
-            total={50}
-            showTotal={(total) => `共 ${total} 条`}
-            showSizeChanger
-            onShowSizeChange={() => {}}
-            showQuickJumper
-          /> */}
         </ConfigProvider>
       </Card>
 

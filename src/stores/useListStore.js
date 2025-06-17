@@ -19,6 +19,8 @@ const useListStore = create((set) => ({
   fetchData: async (params) => {
     set({ loading: true });
     try {
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 500));
       // 模拟API调用
       const { current, pageSize } = params.pagination;
       const { dateRange, keyword, status } = params.searchParams;
@@ -26,13 +28,11 @@ const useListStore = create((set) => ({
       // 这里实际项目中替换为真实API调用
       const mockData = Array.from({ length: 100 }, (_, i) => ({
         id: i + 1,
-        name: `项目-${dayjs().subtract(i, "day").format("x")}`,
+        name: `卡-${dayjs().subtract(i, "day").format("X").slice(0, 7)}`,
         status: i % 3 === 0 ? "active" : i % 3 === 1 ? "frozen" : "inactive",
         amount: Math.random() * 10000,
         date: dayjs().subtract(i, "day").format("YYYY-MM-DD HH:mm:ss"),
-        description: `这是项目-${i + 1} 的详细描述，包含关键词 ${
-          keyword || "无"
-        }`,
+        description: `这是卡-${i + 1} 的详细描述，包含无`,
       })).filter((item) => {
         // 模拟过滤
         if (keyword && !item.name.includes(keyword)) return false;
@@ -66,40 +66,60 @@ const useListStore = create((set) => ({
   setPagination: (pagination) => set({ pagination }),
 
   // 删除项目
-  deleteItem: (id) =>
+  deleteItem: (id) => {
+    set({ loading: true });
     set((state) => ({
       data: state.data.filter((item) => item.id !== id),
       pagination: {
         ...state.pagination,
         total: state.pagination.total - 1,
       },
-    })),
+    }));
+    setTimeout(() => {
+      set({ loading: false });
+    }, 500);
+  },
 
   // 批量删除
-  batchDelete: (ids) =>
+  batchDelete: (ids) => {
+    set({ loading: true });
     set((state) => ({
       data: state.data.filter((item) => !ids.includes(item.id)),
       pagination: {
         ...state.pagination,
         total: state.pagination.total - ids.length,
       },
-    })),
+    }));
+    setTimeout(() => {
+      set({ loading: false });
+    }, 500);
+  },
 
   // 更新状态
-  updateStatus: (id, status) =>
+  updateStatus: (id, status) => {
+    set({ loading: true });
     set((state) => ({
       data: state.data.map((item) =>
         item.id === id ? { ...item, status } : item
       ),
-    })),
+    }));
+    setTimeout(() => {
+      set({ loading: false });
+    }, 500);
+  },
 
   // 批量更新状态
-  batchUpdateStatus: (ids, status) =>
+  batchUpdateStatus: (ids, status) => {
+    set({ loading: true });
     set((state) => ({
       data: state.data.map((item) =>
         ids.includes(item.id) ? { ...item, status } : item
       ),
-    })),
+    }));
+    setTimeout(() => {
+      set({ loading: false });
+    }, 500);
+  },
 }));
 
 export default useListStore;
