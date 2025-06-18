@@ -16,19 +16,19 @@ import IdInfo from "./components/IdInfo";
 import Mid from "./components/Mid";
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
-  <HashRouter>
-    <Routes>
-      <Route path="/" element={<App />}>
-        <Route index element={<Home />}></Route>
-        <Route path="form" element={<RechargeForm />}></Route>
-        <Route path="list" element={<Mid />}>
-          <Route index element={<List />}></Route>
-          <Route path=":id" element={<IdInfo />}></Route>
+  <StrictMode>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<Home />}></Route>
+          <Route path="form" element={<RechargeForm />}></Route>
+          <Route path="list" element={<Mid />}>
+            <Route index element={<List />}></Route>
+            <Route path=":id" element={<IdInfo />}></Route>
+          </Route>
+          <Route path="listmore" element={<ListPage />}></Route>
         </Route>
-        <Route path="listmore" element={<ListPage />}></Route>
-      </Route>
-    </Routes>
-  </HashRouter>
-  // </StrictMode>
+      </Routes>
+    </HashRouter>
+  </StrictMode>
 );

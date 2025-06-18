@@ -4,12 +4,6 @@
 :root {
   /* font-family: ttt; */
 }
-.my-button {
-  background: #4f9c83;
-}
-.my-button:hover {
-  background: #73bea0 !important;
-}
 
 @font-face {
   font-family: "ttt";

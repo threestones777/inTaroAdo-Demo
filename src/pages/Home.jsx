@@ -56,29 +56,17 @@ export default function Home() {
           <div className="flex justify-around">
             <div>
               <p>
-                <Button
-                  type="primary"
-                  className="w-100 my-button"
-                  onClick={increment}
-                >
+                <Button type="primary" className="w-100" onClick={increment}>
                   +
                 </Button>
               </p>
               <p>
-                <Button
-                  type="primary"
-                  className="w-100 my-button"
-                  onClick={decrement}
-                >
+                <Button type="primary" className="w-100" onClick={decrement}>
                   -
                 </Button>
               </p>
               <p>
-                <Button
-                  type="primary"
-                  className="w-100 my-button"
-                  onClick={reset}
-                >
+                <Button type="primary" className="w-100" onClick={reset}>
                   reset
                 </Button>
 

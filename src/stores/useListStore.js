@@ -19,7 +19,7 @@ const useListStore = create((set) => ({
   fetchData: async (params) => {
     set({ loading: true });
     try {
-      // Simulate network delay
+      // 网络延迟
       await new Promise((resolve) => setTimeout(resolve, 500));
       // 模拟API调用
       const { current, pageSize } = params.pagination;

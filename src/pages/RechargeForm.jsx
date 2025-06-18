@@ -33,7 +33,7 @@ const RechargeForm = () => {
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data["users"]);
       });
   }, [formData, form]);
 
