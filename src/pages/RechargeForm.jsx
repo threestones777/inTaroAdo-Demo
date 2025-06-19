@@ -150,7 +150,6 @@ const RechargeForm = () => {
 
         <div className="flex justify-between">
           <Button
-            type="primary"
             onClick={fullRecharge}
             disabled={!formData.fromAccount || currentBalance <= 0}
           >
@@ -158,7 +157,6 @@ const RechargeForm = () => {
           </Button>
 
           <Button
-            type="primary"
             onClick={handleSubmit}
             disabled={submitting}
             icon={submitting ? <LoadingOutlined /> : null}

@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { Outlet } from "react-router";
 import useStore from "@/stores/store";
 import { Badge, FloatButton, ConfigProvider } from "antd";
+import themeConfig from "@/theme/themeConfig";
 
 export default function App() {
   const { search, addSearch, fetchData } = useStore();
@@ -52,26 +53,7 @@ export default function App() {
         </div>
       </nav>
       <div className="pt-100 min-h-screen z-20 bg-[linear-gradient(to_bottom,#98c0c9_0%,#c4f8e7_100%)]">
-        <ConfigProvider
-          theme={{
-            components: {
-              FloatButton: {
-                colorPrimary: "#4f9c83",
-                colorPrimaryHover: "#73bea0",
-                algorithm: true, // 启用算法
-              },
-              Button: {
-                colorPrimary: "#4f9c83",
-                colorPrimaryHover: "#73bea0",
-                algorithm: true, // 启用算法
-              },
-              // Input: {
-              //   colorPrimary: "#eb2f96",
-              //   algorithm: true, // 启用算法
-              // },
-            },
-          }}
-        >
+        <ConfigProvider theme={themeConfig}>
           <Outlet />
           <FloatButton
             shape="circle"
